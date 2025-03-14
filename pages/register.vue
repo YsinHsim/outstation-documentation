@@ -31,9 +31,25 @@ const username = ref("");
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
+const errorMessage = ref("");
 
-const handleRegister = () => {
-    alert('Login with :\n ' + username.value + "\n Email: " + email.value + "\n Password:  " + password.value);
+const handleRegister = async () => {
+    errorMessage.value = "";
+
+    try {
+        const res = await fetch("/api/register", {
+            method: "POST",
+            body: JSON.stringify({ username: username.value, email: email.value, password: password.value }),
+            headers: { "Content-Type": "application/json" },
+        });
+        
+        if( !res.ok) throw new Error(await res.text());
+
+        alert("Registration successful! You can log in.");
+        navigateTo("/login");
+    } catch( error) {
+        errorMessage.value = error.message;
+    }
 };
 
 </script>

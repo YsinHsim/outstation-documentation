@@ -25,9 +25,28 @@ import backButton from './components/back-button.vue';
 
 const email = ref("");
 const password = ref("");
+const errorMessage = ref("");
 
-const handleLogin = () => {
-    alert('Login with :\n ' + email.value + "\n Password:  " + password.value);
+const handleLogin = async () => {
+    errorMessage = "";
+
+    try {
+        const res = await fetch("/api/login", {
+            method: "POST",
+            body: JSON.stringify({ email: email.value, password: password.value }),
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if( !res.ok) throw new Error(await res.text());
+
+        const data = await res.json();
+        useCookie("token").value = data.token; // Store token in a cookie
+
+        alert("Login successful!");
+        navigateTo("/dashboard");
+    } catch ( error) {
+        errorMessage.value = error.message;
+    }
 };
 
 </script>

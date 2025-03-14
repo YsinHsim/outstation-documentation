@@ -1,8 +1,5 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen bg-base-200">
-        <div class="absolute top-8 left-8">
-            <backButton />
-        </div>
+    <div class="flex items-center justify-center h-screen bg-base-200">
         <div class="card w-120 bg-base-100 shadow p-6">
             <h2 class="text-2xl font-bold">Login</h2>
             
